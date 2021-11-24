@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>{{title}}</h1>
+    <p>以下のレコードを削除します</p>
+    <table>
+        <tr><th>ID</th><td>{{obj.id}}</td></tr>
+        <tr><th>NAME</th><td>{{obj.name}}</td></tr>
+        <tr><th>Gender</th></tr>
+        {% if obj.gender == False%}male{%endif%}
+        {% if obj.gender == True %}female{% endif %}
+        <tr><th>Email</th><td>{{obj.mail}}</td></tr>
+        <tr><th>Age</th><td>{{obj.age}}</td></tr>
+        <tr><th>Birth</th><td>{{obj.birthday}}</td></tr>
+        <form action="{%url "delete" id%}" method="post">
+        {% csrf_token %}
+        <tr><th></th><td>
+        <input type="submit" value="click">
+        </td></tr>
+        </form>
+    </table>
+</body>
+</html>
