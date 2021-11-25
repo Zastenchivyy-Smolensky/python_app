@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>{{title}}</h1>
+    <p>{{message|safe}}</p>
+    <ol>
+    {% for item in form %}
+    <li>{{item.name}}({{item.value}}):{{item.errors.as_text}}</li>
+    {% endfor %}
+    <table>
+    <form action="{%url "check"%}" method~"post">
+    {% csrf_token %}
+    <div>名前{{form.name}}</div>
+    <div>メール{{form.mail}}</div>
+    <div>性別{{form.gender}}</div>
+    <div>年齢{{form.age}}</div>
+    <div>誕生日{{form.birthday}}</div>
+    <input type="submit" value="click">
+    </td></tr>
+    </form>
+    </table>
+    </ol>
+</body>
+</html>

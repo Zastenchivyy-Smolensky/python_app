@@ -13,7 +13,11 @@
     <p>{{message|safe}}</p>
     <table>
         <tr>
-            <th>data</th>
+            <th>id</th>
+            <th>name</th>
+            <th>age</th>
+            <th>mail</th>
+            <th>birthday</th>
         </tr>
         {% for item in data %}
             <tr>
@@ -27,5 +31,24 @@
             </tr>
         {% endfor %}
     </table>
+    <ul>
+    {% if data.has_previous %}
+        <li>
+        <a class="page-link">&laquo; first</a>
+        </li>
+        <li>
+        <a class="page-link">&laquo; prev</a>
+        </li>
+        {% endif %}
+        <li><a class="page-item">{{data.number}}/{{data.paginator}}</a></li>
+        {% if data.has_next %}
+        <li><a href="{%url "index"%}{{data.next_page_number}}">next &raquo;</a></li>
+        <li><a href="{%url "index"%}{{data.paginator.num_pages}}">last &raquo;</a></li>
+        {% else %}
+        <li><a class="page-link">next &raquo;</a></li>
+        <li><a class="page-link">last &raquo;</a></li>
+        
+    {% endif %}
+    </ul>
 </body>
 </html>
