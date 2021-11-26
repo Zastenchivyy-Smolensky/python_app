@@ -1,3 +1,4 @@
+from django.core import paginator
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.shortcuts import redirect
@@ -10,6 +11,8 @@ from django.db.models import Q
 from django.db.models import Count,Sum,Avg,Min,Max
 from .forms import CheckForm
 from django.core.paginator import Paginator
+from .models import Friend,Message
+from .forms import FriendForm, MessageForm
 class FriendList(ListView):
     model=Friend
 class FriendDetail(DetailView):
@@ -111,3 +114,17 @@ def check(request):
         else:
             params["message"]="no good"
     return render(request, "hello/check.html" , params)
+
+def message(request,page=1):
+    if(request.method=="POST"):
+        obj=Message()
+        form=MessageForm(request.POST,instance=obj)
+        form.save()
+    data=Message.objects.all().reverse()
+    paginator=Paginator(data,5)
+    params={
+        "title":"message",
+        "form":MessageForm(),
+        "data":paginator.get_page(page),
+    }
+    return render(request, "hello/message.html", params)

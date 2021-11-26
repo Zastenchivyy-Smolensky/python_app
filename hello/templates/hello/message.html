@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>{{title}}</h1>
+    <form action="{%url "message"%}" method="post">
+    {% csrf_token %}
+    {{form.as_p}}
+    <input type="submit" value="send">
+    <div></div>
+    <table>
+        <tr>
+            <th>title</th>
+            <th>name</th>
+            <th>datetime</th>
+        </tr>
+    {% for item in data %}
+        <tr>
+            <td>{{item.title}}</td>
+            <td>{{item.friend.name}}</td>
+            <td>{{item.pub_date}}</td>
+        </tr>
+    {% endfor %}
+    </table>
+    <ul>
+    {% if data.has_previous %}
+        <li>
+        <a href="{%url "message"%}">&laquo; first</a>
+        </li>
+        <li>
+        <a href="{%url "message"%}">&laquo; prev</a>
+        </li>
+        {% else %}
+        <li><a>&laquo; first</a></li>
+        <li><a>&laquo; prev</a></li>
+    {% endif %}
+    <li><a>{{data.number}}/{{data.paginator.num_pages}}</a></li>
+    {% if data.has_next %}
+    <li><a href="{%url "message"%}{{data.next_page_number}}">next &raquo;</a></li>
+    <li><a href="{%url "message"%}{{data.paginator.num_pages}}">last &raquo;</a></li>
+    {%else%}
+    <li><a>next &raquo;</a></li>
+    <li><a>last &raquo;</a></li>
+    {% endif %}
+    </ul>
+    </form>
+</body>
+</html>

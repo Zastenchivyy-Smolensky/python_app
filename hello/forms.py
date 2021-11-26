@@ -1,5 +1,7 @@
 from django import forms
+from django.forms import fields, widgets
 from.models import Friend
+from.models import Message
 class CheckForm(forms.Form):
     
     str=forms.CharField(label="String",\
@@ -33,3 +35,12 @@ class HelloForm(forms.Form):
         widget=forms.NumberInput(attrs={"class":"form-control"}))
     birthday=forms.DateField(label="Birth",\
         widget=forms.DateInput(attrs={"class":"form-control"}))
+class MessageForm(forms.ModelForm):
+    class Meta:
+        model=Message
+        fields=["title","content","friend"]
+        widgets={
+            "title":forms.TextInput(attrs={"class":"form-control form-control-sm"}),
+            "content":forms.Textarea(attrs={"class":"form-control form-control-sm","rows":2}),
+            "friend":forms.Select(attrs={"class":"form-control form-control-sm"}),
+        }
