@@ -34,8 +34,8 @@ def index(request,page=1):
 @login_required(login_url="/admin/login/")
 
 def groups(request):
-    friends=Friend.objects.filter(owner=request.user)
-    if request.method=="POST":
+    friends = Friend.objects.filter(owner=request.user)
+    if request.method == "POST":
         if request.method["mode"] == "__groups_form__":
             sel_group=request.POST["groups"]
             gp=Group.objects.filter(owner=request.user)\
@@ -107,12 +107,12 @@ def creategroup(request):
     return redirect(to="/sns/groups")
 @login_required(login_url="/admin/login/")
 def post(request):
-    if request.method=="POST":
+    if request.method == "POST":
         gr_name=request.POST["groups"]
         content=request.POST["content"]
-    group=Group.objects.filter(owner=request.user)\
+    group=Group.objects.filter(owner=request.user) \
         .filter(title=gr_name).first()
-    if group==None:
+    if group == None:
         (pub_user,group) = get_public()
         msg=Message()
         msg.owner=request.user
@@ -176,17 +176,18 @@ def good(request,good_id):
     return redirect(to="/sns")
 def get_your_group_message(owner,glist,page):
     page_num=10
-    (public_user,publi_group)=get_public()
+    (public_user,public_group)=get_public()
     groups=Group.objects.filter(Q(owner=owner)\
-    |Q(owner=public_user)).filter(title__in=groups)
+    |Q(owner=public_user)).filter(title__in=glist)
     me_friends=Friend.objects.filter(group__in=groups)
-    me_user=[]
+    me_users=[]
     
     for f in me_friends:
         me_users.append(f.user)
     his_groups=Group.objects.filter(owner__in=me_users)
-    his_friends=Friend.object.filter(user=owner)\
+    his_friends=Friend.objects.filter(user=owner)\
         .filter(group__in=his_groups)
+    me_groups=[]
     for hf in his_friends:
         me_groups.append(hf.group)
     messages=Message.objects.filter(Q(group__in=groups)\
